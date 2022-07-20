@@ -52,7 +52,6 @@ class Plotter:
         if step == 0:
             step = 1
         plt.xticks(range(0, len(tick_labels), step), tick_labels[::step])
-        plt.yticks(np.arange(min(self.cpu), max(self.cpu)+.1, 8))
     
         plt.subplot(2, 1, 2)
         plt.plot(self.times, self.mem, linewidth=4, label="Instant")
@@ -64,7 +63,6 @@ class Plotter:
         plt.grid()
         tick_labels = [f"{x1}[s]\n{x2[:10]}\n{x2[11:]}" for x1, x2 in zip(self.times, self.datetimes)]
         plt.xticks(range(0, len(tick_labels), step), tick_labels[::step])
-        plt.yticks(np.arange(min(self.mem), max(self.mem)+1, 8))
 
 if __name__ == "__main__":
     plotter = Plotter("", "")
