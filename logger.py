@@ -50,10 +50,8 @@ if __name__ == "__main__":
             current_cpu = measure["cpu_stats"]
             current_memory = (
                 measure["memory_stats"]["usage"] -
-                measure["memory_stats"]["stats"]["cache"] +
-                measure["memory_stats"]["stats"]["active_file"]
+                measure["memory_stats"]["stats"]["total_inactive_file"]
                 ) / (1024 ** 2)
-
             cpu_percentage = get_CPU_percent(prev_cpu, current_cpu)
             prev_cpu = current_cpu
             info = {
