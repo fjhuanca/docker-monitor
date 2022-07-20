@@ -35,7 +35,7 @@ if __name__ == "__main__":
     status = container.stats(decode=True, stream = True)
 
     prev_cpu = None
-    start_datetime = datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S")
+    start_datetime = datetime.datetime.utcnow().strftime("%Y-%m-%dT%H_%M_%S")
     start_time = time.time()
     filename = f"log_{container_id}_{start_datetime}.csv"
     os.makedirs(folder, exist_ok=True)
@@ -46,7 +46,7 @@ if __name__ == "__main__":
         writter.writeheader()
         for measure in status:
             time_now = time.time()
-            datetime_now = datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S")
+            datetime_now = datetime.datetime.utcnow().strftime("%Y-%m-%dT%H_%M_%S")
             current_cpu = measure["cpu_stats"]
             current_memory = (
                 measure["memory_stats"]["usage"] -
