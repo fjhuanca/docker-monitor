@@ -26,10 +26,10 @@ class Plotter:
         with open(filename, "r") as file:
             reader = csv.DictReader(file)
             lineas = list(reader)
-            self.times = np.array([x["time"] for x in lineas])
+            self.times = np.array([int(x["time"]) for x in lineas])
             self.datetimes = np.array([x["datetime"] for x in lineas])
-            self.cpu = np.array([x["cpu_percentage"] for x in lineas])
-            self.mem = np.array([x["mem_used_mb"] for x in lineas])
+            self.cpu = np.array([float(x["cpu_percentage"]) for x in lineas])
+            self.mem = np.array([float(x["mem_used_mb"]) for x in lineas])
         out_filename = os.path.split(filename)[-1]
         out_path = os.path.join(out_folder, f"{out_filename[:-4]}.png")
         self.plot({"figsize": (75, 50)}, out_path)
@@ -46,6 +46,7 @@ class Plotter:
         if step == 0:
             step = 1
         plt.xticks(range(0, len(tick_labels), step), tick_labels[::step])
+        plt.yticks(np.arange(min(self.cpu), max(self.cpu)+.1, 8))
     
         plt.subplot(2, 1, 2)
         plt.plot(self.times, self.mem)
@@ -54,6 +55,7 @@ class Plotter:
         plt.title("Mem Usage")
         tick_labels = [f"{x1}[s]\n{x2[:10]}\n{x2[11:]}" for x1, x2 in zip(self.times, self.datetimes)]
         plt.xticks(range(0, len(tick_labels), step), tick_labels[::step])
+        plt.yticks(np.arange(min(self.mem), max(self.mem)+1, 8))
 
 if __name__ == "__main__":
     plotter = Plotter("", "")
