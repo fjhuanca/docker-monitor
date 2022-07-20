@@ -19,3 +19,6 @@ pip install -r requirements.txt
 python logger.py -cid <container id> -t <Monitoring time in seconds>
 ```
 Note: if not time is set or it is set to 0, program will run until it is interrupted.
+
+- Add flag ```--plot``` to plot.
+- ```--help``` for help.
