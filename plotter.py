@@ -11,6 +11,9 @@ font = {'family' : 'normal',
 
 matplotlib.rc('font', **font)
 
+def moving_average(x, w):
+    return np.convolve(x, np.ones(w), 'same') / w
+
 class Plotter:
 
     def plotter(plot):
@@ -37,10 +40,12 @@ class Plotter:
     @plotter
     def plot(self, filename):
         plt.subplot(2, 1, 1)
-        plt.plot(self.times, self.cpu)
+        plt.plot(self.times, self.cpu, linewidth=4, label="Instant")
+        plt.plot(self.times, moving_average(self.cpu, 5), linewidth=2, color="red", label="Rolling mean (5s)", linestyle='dashed')
         plt.xlabel("Time [s]/[date]")
         plt.ylabel("[%]")
         plt.title("CPU Usage")
+        plt.legend()
         tick_labels = [f"{x1}[s]\n{x2[:10]}\n{x2[11:]}" for x1, x2 in zip(self.times, self.datetimes)]
         step = len(tick_labels) // 5
         if step == 0:
@@ -49,10 +54,12 @@ class Plotter:
         plt.yticks(np.arange(min(self.cpu), max(self.cpu)+.1, 8))
     
         plt.subplot(2, 1, 2)
-        plt.plot(self.times, self.mem)
+        plt.plot(self.times, self.mem, linewidth=4, label="Instant")
+        plt.plot(self.times, moving_average(self.mem, 5), linewidth=2, color="red", label="Rolling mean (5s)", linestyle='dashed')
         plt.xlabel("Time [s]/[date]")
         plt.ylabel("RAM [MB]")
         plt.title("Mem Usage")
+        plt.legend()
         tick_labels = [f"{x1}[s]\n{x2[:10]}\n{x2[11:]}" for x1, x2 in zip(self.times, self.datetimes)]
         plt.xticks(range(0, len(tick_labels), step), tick_labels[::step])
         plt.yticks(np.arange(min(self.mem), max(self.mem)+1, 8))
