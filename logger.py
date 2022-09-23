@@ -6,7 +6,16 @@ import csv
 import os 
 import argparse
 from plotter import Plotter
+import signal
+import logging
 
+logging.getLogger('matplotlib.font_manager').disabled = True
+
+def handler(signum, _):
+    if signum == signal.SIGUSR1:
+        raise KeyboardInterrupt
+
+signal.signal(signal.SIGUSR1, handler)
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description='Container monitor.')
